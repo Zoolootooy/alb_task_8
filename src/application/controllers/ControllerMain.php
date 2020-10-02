@@ -20,6 +20,12 @@ class ControllerMain extends Controller
         $this->view->generate('form.php');
     }
 
+    public function test()
+    {
+        $post = Request::post();
+        $this->view->generate('test.php', ['post' => $post]);
+    }
+
 
     public function p()
     {
@@ -33,6 +39,15 @@ class ControllerMain extends Controller
         curl_setopt($ch, CURLOPT_TIMEOUT, 20);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_PROXY, $data['proxy']);
+
+        if ($data['type'] === 'post'){
+            curl_setopt($ch, CURLOPT_POST, true);
+            if ($data['postParams']){
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data['postParams']);
+            }
+        }
+
+
 
         switch ($data['proxyType']){
             case 'socks5':

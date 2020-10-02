@@ -6,7 +6,7 @@ require('partials/header.php'); ?>
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-                <form id="first" name="first" method="post" enctype="multipart/form-data">
+                <form id="first" name="first" class="parse-form" method="post" enctype="multipart/form-data">
 					<div class="row">
 						<div class="col-12">
 							<h1 class="mb-5 text-center">Please enter the data for parsing</h1>
@@ -41,7 +41,7 @@ require('partials/header.php'); ?>
 							<label for="type">Request's type</label>
 							<div class="radio-group">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" id="type1" value="get" >
+                                    <input class="form-check-input" type="radio" name="type" id="type1" value="get" checked>
                                     <label class="form-check-label" for="inlineRadio1">GET</label>
                                 </div>
                                 <div class="form-check form-check-inline">
