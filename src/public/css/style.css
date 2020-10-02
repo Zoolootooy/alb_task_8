@@ -1,5 +1,20 @@
-.radio-group label{
-    margin-right: 30px;
+.parse-form {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.parsedBody{
+    border: 1px solid black;
+    margin: 10px;
+}
+
+.parsed__title{
+    border: 1px solid black;
+    margin: 10px;
+    margin-bottom: -11px;
+    padding-top: 5.5px;
 }
 
 /* Optional: Makes the sample page fill the window. */
@@ -40,18 +55,18 @@ body {
 
 .box {
     position: relative;
-    width:100px;
-    height:100px;
+    width: 100px;
+    height: 100px;
     /*transform: translate(0%, 0%);*/
 }
 
 .box img {
-    width:100px;
-    height:100px;
-    object-fit:cover;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
 }
 
-.td-photo{
+.td-photo {
     width: 125px;
 }
 

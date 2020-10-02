@@ -6,12 +6,17 @@ require('partials/header.php'); ?>
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<form id="form" action="p" method="post" enctype="multipart/form-data">
+                <form id="first" name="first" method="post" enctype="multipart/form-data">
+					<div class="row">
+						<div class="col-12">
+							<h1 class="mb-5 text-center">Please enter the data for parsing</h1>
+						</div>
+					</div>
+
 					<div class="row">
 						<div class="col-12 form-group">
-							<label for="url">URL</label>
-							<input id="url" class="form-control shadow-sm" type="text" name="url"
-							       placeholder="Url" required>
+							<label for="url">URL (*)</label>
+                            <input class="form-control shadow-sm" type="text" name="url" id="url" placeholder="URL">
 						</div>
 					</div>
 
@@ -35,32 +40,62 @@ require('partials/header.php'); ?>
 						<div class="col-12 form-group">
 							<label for="type">Request's type</label>
 							<div class="radio-group">
-								<input id="type1" name="type" type="radio" value="get" checked>
-								<label class="form-check-label" for="type1">
-									GET
-								</label>
-								<input id="type2" name="type" type="radio" value="post">
-								<label class="form-check-label" for="type2">
-									POST
-								</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="type" id="type1" value="get" >
+                                    <label class="form-check-label" for="inlineRadio1">GET</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="type" id="type2" value="post">
+                                    <label class="form-check-label" for="inlineRadio1">POST</label>
+                                </div>
 							</div>
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-12 form-group">
-							<label for="proxy">Proxy</label>
-							<input id="proxy" class="form-control shadow-sm" type="text" name="proxy"
-							       placeholder="Proxy" required>
+							<label for="proxy">Proxy (*)</label>
+                            <input class="form-control shadow-sm" type="text" name="proxy" id="proxy" placeholder="Proxy">
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="col-12 col-md-4 offset-md-8 col-lg-2 offset-lg-10  text-right">
-							<input id="btnSubmit" class="btn btn-primary btn-lg btn-block shadow-sm" value="Submit"
-							       type="submit">
-						</div>
-					</div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="proxy-type" id="proxy-radio1" value="http" >
+                                <label class="form-check-label" for="inlineRadio1">HTTP</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="proxy-type" id="proxy-radio2" value="https">
+                                <label class="form-check-label" for="inlineRadio1">HTTPS</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="proxy-type" id="proxy-radio3" value="socks5" checked>
+                                <label class="form-check-label" for="inlineRadio1">SOCKS5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5">
+                            <div id="response">
+                                <span id="status">cURL</span>
+                                <span id="code"></span>
+                            </div>
+                        </div>
+                        <div class="col-1 offset-4">
+                            <div id="loading" class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="col-2 text-right">
+                            <button
+                                    id="btnGO"
+                                    class="btn btn-primary btn-lg btn-block shadow-sm">
+                                GO
+                            </button>
+                        </div>
+                    </div>
 				</form>
 			</div>
 		</div>

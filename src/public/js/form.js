@@ -1,22 +1,22 @@
-function onFirstForm () {
-  $('#second').hide()
-}
-
-function onSecondForm () {
-  $('#first').hide()
-}
-
 function funcBeforeFirst () {
+  $('#response').hide()
+  $('#code').text('')
+  $('#loading').show()
 }
 
 function funcSuccessFirst (data) {
-  if (data == 'true') {
-    $('#first').hide(500)
-    $('#second').show(500)
+  $('#loading').hide()
+
+
+  if (data !== ''){
+    $('#code').text(' response code: ' + JSON.parse(data).code)
+    $('#response').show()
   } else {
-    alert(
-      'Some error with saving your data. Please check the entering data and try again.')
+    $('#code').text('Can\'t parse')
+    $('#response').show()
   }
+
+
 }
 
 $.validator.addMethod('filesize', function (value, element, param) {
@@ -26,7 +26,7 @@ $.validator.addMethod('filesize', function (value, element, param) {
 $.validator.addMethod('regexp', function (value, element, params) {
   var expression = new RegExp(params)
   return this.optional(element) || expression.test(value)
-}, 'Enter correct ip:port address')
+}, 'Enter full phone number')
 
 $(function () {
   $.validator.setDefaults({
@@ -38,29 +38,31 @@ $(function () {
     },
   })
 
-  $('#form').validate({
+  $('#first').validate({
     rules: {
       url: {
-        required: true,
-        url: true,
-      },
-      proxy: {
-        required: true,
-        regexp: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]):[0-9]+$/,
+        maxlength: 100,
       },
     },
     messages: {
-      proxy: {
-        email: 'Please enter a <em>valid</em> email address',
-        remote: 'This email is already registered.',
-        maxlength: 'Please enter no more than 70 characters.',
-      },
       url: {
-        url: 'Please enter a valid URL (with http:// ot https://)',
-      }
+        maxlength: 'Please enter no more than 100 characters.',
+      },
     },
-    submitHandler: function (form) {
-      $(form).submit();
+    submitHandler: function () {
+      $.ajax({
+        url: '/p',
+        type: 'POST',
+        data: ({
+          url: $('#url').val(),
+          proxy: $('#proxy').val(),
+          proxyType:$("input[name='proxy-type']:checked").val()
+        }),
+        enctype: 'multipart/form-data',
+        datatype: 'html',
+        beforeSend: funcBeforeFirst,
+        success: funcSuccessFirst,
+      })
     },
   })
 
@@ -113,8 +115,10 @@ $(function () {
 
 })
 
+
+
+
 $(document).ready(function () {
-
+  $('#response').hide()
+  $('#loading').hide()
 })
-
-

@@ -1,1 +1,1 @@
-$('#proxy').mask('0ZZ.0ZZ.0ZZ.0ZZ:ZZZZ', { translation: { 'Z': { pattern: /[0-9]/, optional: true } } });
+$('#proxy').mask('0ZZ.0ZZ.0ZZ.0ZZ:ZZZZZ', { translation: { 'Z': { pattern: /[0-9]/, optional: true } } });
