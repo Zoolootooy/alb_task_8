@@ -59,6 +59,7 @@ $(function () {
           proxyType:$("input[name='proxy-type']:checked").val(),
           postParams: $('#params').val(),
           type:$("input[name='type']:checked").val(),
+          headers: $('#headers').val(),
         }),
         enctype: 'multipart/form-data',
         datatype: 'html',

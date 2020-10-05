@@ -24,7 +24,8 @@ require('partials/header.php'); ?>
 						<div class="col-12 form-group">
 							<label for="headers">Headers</label>
 							<textarea id="headers" class="form-control shadow-sm" maxlength="21845"
-							          rows="3" name="headers"></textarea>
+							          rows="3" name="headers"
+                                      placeholder="Enter headers each on a new line without quotes and commas"></textarea>
 						</div>
 					</div>
 

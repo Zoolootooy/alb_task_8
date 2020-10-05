@@ -30,6 +30,11 @@ class ControllerMain extends Controller
     public function p()
     {
         $data = Request::post();
+        $this->parseCurl($data);
+    }
+
+    private function parseCurl($data)
+    {
         $ch = curl_init($data['url']);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -47,6 +52,10 @@ class ControllerMain extends Controller
             }
         }
 
+        if ($data['headers']) {
+            $headers = explode("\n", $data['headers']);
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 
         switch ($data['proxyType']){
@@ -70,9 +79,6 @@ class ControllerMain extends Controller
         fclose($fp);
 
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $fp = fopen('output/parse2.html', 'w+');
-        fwrite($fp, $http_code);
-        fclose($fp);
         echo json_encode([
             'code' => $http_code]);
         curl_close($ch);
