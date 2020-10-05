@@ -20,10 +20,21 @@ class ControllerMain extends Controller
         $this->view->generate('form.php');
     }
 
+    public function test()
+    {
+        $post = Request::post();
+        $this->view->generate('test.php', ['post' => $post]);
+    }
+
 
     public function p()
     {
         $data = Request::post();
+        $this->parseCurl($data);
+    }
+
+    private function parseCurl($data)
+    {
         $ch = curl_init($data['url']);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -33,6 +44,19 @@ class ControllerMain extends Controller
         curl_setopt($ch, CURLOPT_TIMEOUT, 20);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_PROXY, $data['proxy']);
+
+        if ($data['type'] === 'post'){
+            curl_setopt($ch, CURLOPT_POST, true);
+            if ($data['postParams']){
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data['postParams']);
+            }
+        }
+
+        if ($data['headers']) {
+            $headers = explode("\n", $data['headers']);
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
 
         switch ($data['proxyType']){
             case 'socks5':
@@ -55,9 +79,6 @@ class ControllerMain extends Controller
         fclose($fp);
 
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $fp = fopen('output/parse2.html', 'w+');
-        fwrite($fp, $http_code);
-        fclose($fp);
         echo json_encode([
             'code' => $http_code]);
         curl_close($ch);
