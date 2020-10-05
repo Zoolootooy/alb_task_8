@@ -1,5 +1,7 @@
 /.idea/
 /src/vendor/
+/src/output/
+!/src/output/.gitignore
 /test/
 /src/application/config/database_config.php
 /src/public/images/
