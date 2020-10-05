@@ -66,6 +66,8 @@ $(function () {
         beforeSend: funcBeforeFirst,
         success: funcSuccessFirst,
       })
+
+
     },
   })
 
@@ -113,6 +115,8 @@ $(function () {
         beforeSend: funcBeforeSecond,
         success: funcSuccessSecond,
       })
+
+
     },
   })
 
@@ -125,3 +129,5 @@ $(document).ready(function () {
   $('#response').hide()
   $('#loading').hide()
 })
+
+

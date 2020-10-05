@@ -11,6 +11,10 @@ use application\models\ModelMain;
 use \GuzzleHttp\Client as Client;
 use GuzzleHttp\Exception\GuzzleException;
 
+use Nesk\Puphpeteer\Puppeteer;
+use Nesk\Rialto\Data\JsFunction;
+
+
 class ControllerMain extends Controller
 {
 
@@ -31,6 +35,7 @@ class ControllerMain extends Controller
     {
         $data = Request::post();
         $this->parseCurl($data);
+        $this->parseHeadless($data);
     }
 
     private function parseCurl($data)
@@ -45,20 +50,20 @@ class ControllerMain extends Controller
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_PROXY, $data['proxy']);
 
-        if ($data['type'] === 'post'){
+        if ($data['type'] === 'post') {
             curl_setopt($ch, CURLOPT_POST, true);
-            if ($data['postParams']){
+            if ($data['postParams']) {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data['postParams']);
             }
         }
 
         if ($data['headers']) {
             $headers = explode("\n", $data['headers']);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 
-        switch ($data['proxyType']){
+        switch ($data['proxyType']) {
             case 'socks5':
                 curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
                 break;
@@ -74,9 +79,11 @@ class ControllerMain extends Controller
         $html = curl_exec($ch);
 
 
-        $fp = fopen('output/parse1.html', 'w+');
-        fwrite($fp, $html);
-        fclose($fp);
+//        $fp = fopen('output/parse1.html', 'w+');
+//        fwrite($fp, $html);
+//        fclose($fp);
+
+        $this->savePage($html, 'output/parse1.html');
 
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         echo json_encode([
@@ -86,7 +93,39 @@ class ControllerMain extends Controller
 
     private function parseHeadless($data)
     {
+        $proxy = '';
+        if($data['proxy']){
+            if ($data['proxyType'] === 'socks5'){
+                $proxy = '--proxy-server=socks5://' . $data['proxy'];
+            }
+            else {
+                $proxy = '--proxy-server=' . $data['proxy'];
+            }
+        }
+        $puppeteer = new Puppeteer([]);
+        $browser = $puppeteer->launch([
+            'ignoreHTTPSErrors' => true,
+            'args' => [$proxy],
+        ]);
 
+        $page = $browser->newPage();
+        $page->goto($data['url']);
+        $html = $page->content();
+
+        $this->savePage($html, 'output/parse2.html');
+        $browser->close();
     }
 
+    private function savePage($data, $filename)
+    {
+        $fp = fopen($filename, 'w+');
+        fwrite($fp, $data);
+        fclose($fp);
+    }
+
+    public function save()
+    {
+        $data = Request::post();
+        $this->savePage($data['html'], $data['filename']);
+    }
 }

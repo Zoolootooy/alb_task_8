@@ -9,7 +9,8 @@
   "require": {
     "ext-json": "*",
     "guzzlehttp/guzzle": "^7.1",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "nesk/puphpeteer": "^1.6"
   },
   "autoload": {
     "psr-4": {

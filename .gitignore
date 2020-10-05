@@ -1,5 +1,6 @@
 /.idea/
 /src/vendor/
+/src/node_modules/
 /src/output/
 !/src/output/.gitignore
 /test/
