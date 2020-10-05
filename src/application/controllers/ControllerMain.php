@@ -84,4 +84,9 @@ class ControllerMain extends Controller
         curl_close($ch);
     }
 
+    private function parseHeadless($data)
+    {
+
+    }
+
 }
